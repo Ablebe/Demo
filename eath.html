@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /*给画布填充颜色*/
+        svg{
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+<div id="d1"></div>
+<script src="TwoJS/two.js"></script>
+<script>
+    //注意：two里面是有绘画的先后顺序，是有叠放顺序的！！
+    var options={
+        width:800,
+        height:800,
+        type:Two.Types.svg
+    };
+    var two=new Two(options).appendTo(d1);
+    //圈
+    var c2=two.makeCircle(400,400,300);
+    c2.fill='#000';
+    c2.stroke='#fff';
+    //太阳
+    var c1=two.makeCircle(400,400,150);
+    c1.fill='red';
+    c1.stroke='transparent';
+    //地球周围的圈
+    var c4=two.makeCircle(300,0,80);
+    c4.fill='transparent';
+    c4.stroke='#fff';
+    //地球
+    var c3=two.makeCircle(300,0,40);
+//    console.log(c3.getAttribute('x'));
+    c3.fill='blue';
+    c3.stroke='transparent';
+
+    //月球  月球的旋转中心是地球，但是地球一直在动，所以旋转中心的位置不是确定的，是变量
+    var c5=two.makeCircle(80,0,20);
+    c5.fill='yellow';
+    c5.stroke='transparent';
+
+    var g1=two.makeGroup(c5);
+    //g1相对于g2进行定位
+    g1.translation.set(300,0);
+    //   g1.rotation=180*Math.PI/180;
+    var degMoon=0;
+    two.on('update',function () {
+        degMoon+=3;
+        g1.rotation=degMoon*Math.PI/180;
+    });
+
+    var g2=two.makeGroup(c3,c4,g1);
+    g2.translation.set(400,400);
+    g2.rotation=30*Math.PI/180;
+    var degSun=0;
+    two.on('update',function () {
+        degSun+=1;
+        g2.rotation=degSun*Math.PI/180;
+    });
+
+
+    two.play();
+</script>
+</body>
+</html>
