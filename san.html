@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        svg {
+            background: #222;
+        }
+    </style>
+</head>
+<body>
+    <h2>三角恋</h2>
+    <div id="box"></div>
+    <script src="js/two.js"></script>
+    <script>
+        var two=new Two({
+           width:800,
+            height:800,
+            type:Two.Types.svg
+        }).appendTo(box);
+
+        //创建太阳及其轨道
+        var sun=two.makeCircle(400,400,200);
+        sun.fill='#f00';
+        var sunline=two.makeCircle(400,400,300);
+        sunline.fill='transparent';
+        sunline.stroke='#ddd';
+
+        //创建地球及其轨道
+        var earth=two.makeCircle(-300,0,40);
+        earth.fill='#0f0';
+        var earthline=two.makeCircle(-300,0,80);
+        earthline.stroke='#ddd';
+        earthline.fill='transparent';
+
+        //创建月球
+        var moon=two.makeCircle(-80,0,20);
+        moon.fill='#0ff';
+
+        //创建一个透明的容器,呈装地球及其轨道
+        var g1=two.makeGroup(earth,earthline);
+        g1.translation.set(400,400);
+        //g1.rotation=30*Math.PI/180;
+
+        //创建一个透明的容器,呈装月球
+        var g2=two.makeGroup(moon);
+        g2.translation.set(100,400);
+        //g1.rotation=30*Math.PI/180;
+
+        //让月球动起来
+        var deg1=0;
+        var deg2=0;
+        two.on('update',function(){
+            deg1+=1;
+            deg2+=5;
+            g1.rotation=deg1*Math.PI/180;
+            g2.rotation=deg2*Math.PI/180;
+        });
+
+        two.play();
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
